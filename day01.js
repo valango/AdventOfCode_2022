@@ -15,25 +15,18 @@ const parse = (dsn) => {
   return results   //  NOTE: The runner will distinguish between undefined and falsy!
 }
 
-/** @typedef {*} TData */
+/** @typedef {{sum: number}} TData */
 
 /**
  * @param {TData[]} input
- * @param {TOptions} options
  */
-const puzzle1 = (input, options) => {
-  let max = 0
-  for (let i = 0, foods, cals = 0; (foods = input[i]) !== undefined; ++i) {
-    if (foods.sum > max) {
-      max = foods.sum
-    }
-  }
-  return max
+const puzzle1 = (input) => {
+  input.sort((a, b) => b.sum - a.sum)
+  return input[0].sum
 }
 
 /** @param {TData[]} input */
 const puzzle2 = (input) => {
-  input.sort((a, b) => b.sum - a.sum)
   return input.slice(0, 3).reduce((s, r) => s + r.sum, 0)
 }
 

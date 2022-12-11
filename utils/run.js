@@ -25,7 +25,7 @@ const prepareDays = (requiredDays, modules, allDays) => {
         return 'No modules for given day(s)!\n'
       }
     } else {
-      days = [modules.sort().reverse()[0]]
+      days = [modules.sort().reverse()[0]]  //  Pick the last one.
     }
   }
   return days
