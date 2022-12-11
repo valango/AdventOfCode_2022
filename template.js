@@ -1,7 +1,9 @@
 'use strict'
 
-const {loadData, parseInt} = require('./utils')
+const {assert, loadData, parseInt} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
+
+/** @typedef {*} TData */
 
 const parse = (dsn) => {
   let data = rawInput[dsn]
@@ -11,8 +13,6 @@ const parse = (dsn) => {
   }
   return data   //  NOTE: The runner will distinguish between undefined and falsy!
 }
-
-/** @typedef {*} TData */
 
 /**
  * @param {TData[]} input
