@@ -1,7 +1,7 @@
 'use strict'
 
-const { loadData, parseInt } = require('./utils')
-const rawInput = [loadData(module.filename), 0, 0, 0]
+const {loadData, parseInt} = require('./utils')
+const rawInput = [loadData(module.filename), undefined, undefined, undefined]
 
 const parse = (dsn) => {
   let data = rawInput[dsn]
@@ -32,7 +32,7 @@ rawInput[1] = ``
 //  Uncomment the next line to disable demo for puzzle2 or to define different demo for it.
 //  rawInput[2] = ``
 
-module.exports = { parse, puzzles: [puzzle1, puzzle2] }
+module.exports = {parse, puzzles: [puzzle1, puzzle2]}
 
 /*
  */
