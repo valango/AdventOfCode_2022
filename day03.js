@@ -22,7 +22,7 @@ const priorityOf = (str, index = 0) => {
 
 const split = (str) => {
   const {length} = str
-  assert(length && !(length & 0b1), 'Bad length %d', length)
+  assert(length && !(length & 1), 'Bad length %d', length)
   return [str.slice(0, length / 2), str.slice(length / 2)]
 }
 
@@ -58,10 +58,10 @@ const count = rows => {
 /** @param {TData[]} input */
 const puzzle2 = (input) => {
   const map = count(input)
-  const labelCandidates = []
+  const labelCandidates = [], exactOnes = []
 
-  map.forEach((indexes, key)=>{
-    if(indexes.length >= 3) labelCandidates.push(key)
+  map.forEach((indexes, key) => {
+    if (indexes.length >= 3) (indexes.length === 3 ? exactOnes : labelCandidates).push(key)
   })
   return undefined
 }

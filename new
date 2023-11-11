@@ -7,5 +7,4 @@ if [ -f $1.js ]; then
   exit 1
 fi
 cp template.js $1.js
-touch temp.js
-touch data/temp.$1.txt
+touch data/$1.txt

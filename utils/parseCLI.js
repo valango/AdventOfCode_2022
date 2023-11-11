@@ -4,7 +4,7 @@ const helpText = `Command line parameters:
   integer - day number(s), (default: most recent day only)
   a: all days
   b: both datasets (default: main data only)
-  d: example data only (mutually exclusive with 'b' option
+  d: demo data only (mutually exclusive with 'b' option
   h: print this information and terminate
   j: generate output as JSON-formatted rows
   m: generate markdown output (default: text table for multiple, JSON for single puzzle)\n\n`

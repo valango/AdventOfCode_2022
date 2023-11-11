@@ -29,7 +29,7 @@ const score = ([hisMove, myMove]) => {
  * @param {TData[]} input
  * @param {TOptions} options
  */
-const puzzle1 = (input, options) => {
+const puzzle1 = (input) => {
   return input.reduce((s, d) => s + score(d), 0)
 }
 
