@@ -14,10 +14,12 @@ const parse = (dsn) => {
 
 /** @typedef {*} TData */
 
-const priorityOf = (str, index = 0) => {
+const cA = 'A'.charCodeAt(0), ca = 'a'.charCodeAt(0)
+
+const priorityOfChar = (str, index = 0) => {
   let v = str.charCodeAt(index)
 
-  return v > 96 ? v - 96 : v - 38
+  return (v >= ca ? v - ca : v - cA + 26) + 1
 }
 
 const split = (str) => {
@@ -31,7 +33,7 @@ const score = (line) => {
   for (const ch of a) {
     if (!repeating.includes(ch) && b.includes(ch)) repeating.push(ch)
   }
-  return repeating.reduce((s, ch) => s + priorityOf(ch), 0)
+  return repeating.reduce((s, ch) => s + priorityOfChar(ch), 0)
 }
 
 /**
@@ -42,32 +44,40 @@ const puzzle1 = (input) => {
   return input.reduce((s, d) => s + score(d), 0)
 }
 
-const count = rows => {
-  const map = new Map()
+const charFromPriority = (v) => {
+  return String.fromCharCode(--v < 26 ? v + ca : v + cA - 26)
+}
 
-  for (let i = rows.length, row; --i >= 0 && (row = rows[i]);) {
-    for (let j = row.length; --j >= 0;) {
-      const indexes = map.get(row[j])
-      if (!indexes) map.set(row[j], [i])
-      else if (!indexes.includes(i)) indexes.push(i)
-    }
+const valueOfTriplet = (lines, offset) => {
+  const limit = offset + 3, results = []
+
+  for (let priority = 1; priority <= 52; ++priority) {
+    let ch = charFromPriority(priority), i = offset
+
+    do {
+      if (!lines[i].includes(ch)) break
+    } while (++i < limit)
+
+    if (i === limit) results.push(ch)
   }
-  return map
+  if (results.length !== 1) throw new Error(`Bad at ${offset}: [${results}]`)
+
+  return priorityOfChar(results[0])
 }
 
 /** @param {TData[]} input */
 const puzzle2 = (input) => {
-  const map = count(input)
-  const labelCandidates = [], exactOnes = []
+  let sum = 0
 
-  map.forEach((indexes, key) => {
-    if (indexes.length >= 3) (indexes.length === 3 ? exactOnes : labelCandidates).push(key)
-  })
-  return undefined
+  for (let offset = 0; offset < input.length; offset += 3) {
+    sum += valueOfTriplet(input, offset)
+  }
+  return sum
 }
 
 //  Example (demo) data.
-rawInput[1] = `vJrwpWtwJgWrhcsFMMfFFhFp
+rawInput[1] = `
+vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
 PmmdzqPrVvPwwTWBwg
 wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
