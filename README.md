@@ -28,6 +28,8 @@ I had no time in time 😄, so I came back to the stuff 11 months later.
 |07|150| | |1933|24|131|25|
 |08|144| | |1399|1886|122|75|
 
+The puzzle #2 time is often shorter, because the bulk of computations often happens during the #1 already.
+
 ![](quote.png)
 
 ## The older ones
