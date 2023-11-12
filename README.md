@@ -14,19 +14,22 @@ I had no time in time 😄, so I came back to the stuff 11 months later.
 * `day 06:` **Tuning Trouble**: simple numeric sequences analyse.
 * `day 07:` **No Space Left On Device**: simple filesystem tree emulation.
 * `day 08:` **Treetop Tree House**: simple 3D terrain emulation.
+* `day 09/1:` **Rope Bridge**: kinda Turtle Graphics emulation. Puzzle #1: 51 min and _answer too low_. In 5 mins cause was found: input parsing error.
+* `day 09/2:` Description is a bit cryptic - need some more time to visualize!
 
 ## Track record
 
-| day|lines|secs1|secs2|M1_µs|M2_µs|D1_µs|D2_µs|
-|---:|---:|---:|---:|---:|---:|---:|---:|
-|01|55| | |64|1|4|1|
-|02|62| | |770|796|2|2|
-|03|90| | |439|698|112|15|
-|04|56| | |283|247|3|3|
-|05|89| | |303|121|4|2|
-|06|53| | |278|341|2|1|
-|07|150| | |1933|24|131|25|
-|08|144| | |1399|1886|122|75|
+| day|lines| mins1 | mins2 |M1_µs|M2_µs|D1_µs|D2_µs|
+|---:|---:|------:|------:|---:|---:|---:|---:|
+|01|55|       |       |64|1|4|1|
+|02|62|       |       |770|796|2|2|
+|03|90|       |       |439|698|112|15|
+|04|56|       |       |283|247|3|3|
+|05|89|       |       |303|121|4|2|
+|06|53|       |       |278|341|2|1|
+|07|150|       |       |1933|24|131|25|
+|08|144|       |       |1399|1886|122|75|
+|09|77|    56 | |4483| |8| |
 
 The puzzle #2 time is often shorter, because the bulk of computations often happens during the #1 already.
 
