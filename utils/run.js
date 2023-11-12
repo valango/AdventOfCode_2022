@@ -73,9 +73,12 @@ const runPuzzles = (days, options, say) => {
   for (const day of days) {
     loadable = require('../day' + day)
     record = {day, lines: readFileSync('day' + day + '.js').toString().split('\n').length}
+    const warmUpData = loadable.parse(1)
 
     for (let d, d0, d1, n = 0, result; n <= 1; ++n) {
       let msg = (`\rday${day}: puzzle #${n + 1} `)
+
+      if (warmUpData) execute(loadable.puzzles[n], warmUpData, {...opts, isDemo: true})
 
       if (useBoth || useDemo) {
         if (n && (d = loadable.parse(2))) {

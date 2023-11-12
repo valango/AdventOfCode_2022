@@ -78,12 +78,16 @@ const puzzle1 = (input) => {
 const findNextCandidate = ({visible, maxX, maxY}, previousPoint) => {
   let y = previousPoint ? previousPoint[0] : 1, x = previousPoint ? previousPoint[1] : 0
 
-  do {
-    if (++x === maxX) {
-      if (++y === maxY) return null
-      x = 1
-    }
-  } while (!(visible[y][x] >= 0))
+  try {
+    do {
+      if (++x === maxX) {
+        if (++y === maxY) return null
+        x = 1
+      }
+    } while (!(visible[y][x] >= 0))
+  } catch (e) {
+    throw e
+  }
 
   return [y, x]
 }
