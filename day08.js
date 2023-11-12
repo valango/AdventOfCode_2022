@@ -1,79 +1,129 @@
 'use strict'
 
-const {assert, loadData, parseInt} = require('./utils')
+const {loadData, parseInt} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
 
-/** @typedef {number[]} TData */
+/** @typedef {{trees:number[][], visible:number[][], maxX:number, maxY:number }} TData */
+
+let doDebug = false
 
 const parse = (dsn) => {
   let data = rawInput[dsn]
 
   if (data && (data = data.split('\n').filter(v => Boolean(v))).length) {
-    return data.map(line => Array.from(line).map(parseInt))
+    const trees = data.map(line => Array.from(line).map(parseInt))
+    const maxX = trees[0].length - 1, maxY = trees.length - 1
+    const visible = []
+    return {maxX, maxY, trees, visible}
   }
   return data   //  NOTE: The runner will distinguish between undefined and falsy!
 }
 
-let debug = false
-
-const dump = (visibles) => {
-  if (!debug) return
+const dump = (visible) => {
+  if (!doDebug) return
   console.log('')
-  for (const row of visibles) console.log('', row)
+  for (const row of visible) {
+    console.log(row.map(v => v >= 0 ? '*' : ' ').join(''))
+  }
 }
 
-const markVisibles = (trees) => {
-  const visibles = []
-  let tallest = 0, iRow = 0, iCol = 0, len = 0
+/** @param {TData} data */
+const markVisible = (data) => {
+  const {trees, visible, maxX, maxY} = data
+  let tallest = 0, y = 0, x = 0
 
   const check = () => {
-    if (trees[iRow][iCol] > tallest) {
-      tallest = trees[iRow][iCol]
-      visibles[iRow][iCol] = 1
+    if (trees[y][x] > tallest) {
+      tallest = visible[y][x] = trees[y][x]
     }
   }
 
-  for (len = trees[0].length; iRow < trees.length; ++iRow) {
-    tallest = -1
-    visibles.push(new Array(len).fill(0))
-    for (iCol = 0; iCol < len; ++iCol) check()
+  for (; y <= maxY; ++y) {
+    visible.push(new Array(maxX + 1).fill(tallest = -1))
+    for (x = 0; x <= maxX; ++x) check()
   }
-  dump(visibles)
-  while (--iRow >= 0) {
+  dump(visible)
+  while (--y >= 0) {
     tallest = -1
-    for (iCol = len; --iCol >= 0;) check()
+    for (x = maxX; x >= 0; --x) check()
   }
-  dump(visibles)
-  for (iCol = 0; iCol < len; ++iCol) {
+  dump(visible)
+  for (x = 0; x <= maxX; ++x) {
     tallest = -1
-    for (iRow = 0; iRow < trees.length; ++iRow) check()
+    for (y = 0; y <= maxY; ++y) check()
   }
-  dump(visibles)
-  while (--iCol >= 0) {
+  dump(visible)
+  while (--x >= 0) {
     tallest = -1
-    for (iRow = trees.length; --iRow >= 0;) check()
+    for (y = maxY; y >= 0; --y) check()
   }
-  dump(visibles)
-  return visibles
+  dump(visible)
+  return visible
 }
 
-const countVisibles = (trees) => {
-  const visibles = markVisibles(trees)
+const countVisible = (trees) => {
+  const visible = markVisible(trees)
   let count = 0
 
-  for (const row of visibles) {
-    for (const v of row) count += v
+  for (const row of visible) {
+    for (const v of row) if (v >= 0) ++count
   }
   return count
 }
 
 const puzzle1 = (input) => {
-  return countVisibles(input)
+  return countVisible(input)
 }
 
-/** @param {TData[]} input */
+const findNextCandidate = ({visible, maxX, maxY}, previousPoint) => {
+  let y = previousPoint ? previousPoint[0] : 1, x = previousPoint ? previousPoint[1] : 0
+
+  do {
+    if (++x === maxX) {
+      if (++y === maxY) return null
+      x = 1
+    }
+  } while (!(visible[y][x] >= 0))
+
+  return [y, x]
+}
+
+const clamp = (value, maxvalue) => value < 0 ? 0 : (value > maxvalue ? maxvalue : value)
+
+const computeDist = ({trees, maxX, maxY}, x0, y0, dx, dy) => {
+  let x = x0, y = y0, maxHeight = trees[x][y]
+
+  while ((x += dx) >= 0 && x <= maxX && (y += dy) >= 0 && y <= maxY) {
+    if (trees[x][y] >= maxHeight) break
+  }
+  x = clamp(x, maxX)
+  y = clamp(y, maxY)
+
+  return Math.abs(x - x0) + Math.abs(y - y0)
+}
+
+const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+const computeScore = (data, x, y) => {
+  let total = 1, recent = 0
+
+  for (const [dx, dy] of directions) {
+    if ((recent = computeDist(data, x, y, dx, dy)) === 0) {
+      return 0
+    }
+    total *= recent
+  }
+  return total
+}
+
+/** @param {TData} input */
 const puzzle2 = (input) => {
-  return undefined
+  let maxScore = 0
+
+  for (let point = undefined, score = 0; (point = findNextCandidate(input, point));) {
+    if ((score = computeScore(input, point[0], point[1])) > maxScore) maxScore = score
+  }
+  return maxScore
 }
 
 //  Example (demo) data.
@@ -87,6 +137,3 @@ rawInput[1] = `
 //  rawInput[2] = ``
 
 module.exports = {parse, puzzles: [puzzle1, puzzle2]}
-
-/*
- */
