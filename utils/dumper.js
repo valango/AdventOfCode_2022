@@ -1,25 +1,27 @@
 //  core/dumper.js
 'use strict'
 
-const { assert } = require('.')
+const {assert} = require('.')
 
-module.exports = ({ useBoth, useDemo }, print) => {
-  const showDemo = useBoth || useDemo, showMain = !useDemo, headings = [' day']
-  let lastColumn, widths, hasNotes = false, cc = 1, drc = 1, dtc = 3, mtc = 3
+module.exports = ({useBoth, useDemo}, print) => {
+  const showDemo = useBoth || useDemo, showMain = !useDemo, headings = [' day', 'lines']
+  let lastColumn, widths, hasNotes = false
+  let commentX = 6, demoResX = 2, demoTimeX = 4, mainTimeX = 4
 
   const prepare = (records) => {
     if (showMain) {
       headings.push('Main1') && headings.push('Main2')
-      cc += 4, drc = 3, dtc = 7
+      demoResX = 4, demoTimeX = 8
     }
     if (showDemo) {
       headings.push('Demo1') && headings.push('Demo2')
-      cc += 4, mtc = 5
+      mainTimeX = 6
+      if (showMain) commentX += 4
     }
     if (showMain) headings.push('M1_µs') && headings.push('M2_µs')
     if (showDemo) headings.push('D1_µs') && headings.push('D2_µs')
 
-    if ((hasNotes = records.some(({ comment }) => Boolean(comment)))) headings.push('Notes')
+    if ((hasNotes = records.some(({comment}) => Boolean(comment)))) headings.push('Notes')
 
     widths = headings.map(s => s.length), lastColumn = headings.length - 1
   }
@@ -69,8 +71,8 @@ module.exports = ({ useBoth, useDemo }, print) => {
     }
   }
 
-  const dump = (records, { makeJSON, makeMd }) => {
-    const { length } = records
+  const dump = (records, {makeJSON, makeMd}) => {
+    const {length} = records
 
     if (length === 1 && !makeJSON && !makeMd) makeJSON = true
 
@@ -84,19 +86,19 @@ module.exports = ({ useBoth, useDemo }, print) => {
       prepare(records)
 
       for (const record of records) {
-        const row = headings.reduce((acc, txt, i) => acc.push(i ? ' ' : record.day) && acc, [])
+        const row = headings.reduce((acc, txt, i) => acc.push(i ? ' ' : record.day, record.lines + '') && acc, [])
         let res, r
 
         if (showMain && (res = record['main'])) {
-          if ((r = res['1'])) row[1] = r.value + '', row[mtc] = r.time + ''
-          if ((r = res['2'])) row[2] = r.value + '', row[mtc + 1] = r.time + ''
+          if ((r = res['1'])) row[2] = r.value + '', row[mainTimeX] = r.time + ''
+          if ((r = res['2'])) row[3] = r.value + '', row[mainTimeX + 1] = r.time + ''
         }
         if (showDemo && (res = record['demo'])) {
-          if ((r = res['1'])) row[drc] = r.value + '', row[dtc] = r.time + ''
-          if ((r = res['2'])) row[drc + 1] = r.value + '', row[dtc + 1] = r.time + ''
+          if ((r = res['1'])) row[demoResX] = r.value + '', row[demoTimeX] = r.time + ''
+          if ((r = res['2'])) row[demoResX + 1] = r.value + '', row[demoTimeX + 1] = r.time + ''
         }
         if (record.comment) {
-          row[cc] = record.comment
+          row[commentX] = record.comment
         }
         rows.push(row)
       }

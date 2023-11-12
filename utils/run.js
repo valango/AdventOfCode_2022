@@ -1,7 +1,7 @@
 //  core/index.js
 'use strict'
 
-const {opendirSync} = require('fs')
+const {opendirSync, readFileSync} = require('fs')
 const dumper = require('./dumper')
 const {assert, parseCLI, print, say, usecsFrom} = require('.')
 
@@ -54,10 +54,9 @@ const execute = (puzzle, data, options) => {
  * @param {Array<string>} days
  * @param {Object} options
  * @param {function(string)} say
- * @param {Array<Object>} [modules]     - for testing only.
  * @returns {Array<Object>}
  */
-const runPuzzles = (days, options, say, modules = undefined) => {
+const runPuzzles = (days, options, say) => {
   let loadable, record
   const longLine = '\r'.padEnd(30) + '\r', output = []
   const {useBoth, useDemo} = options, opts = {...options, days: undefined}
@@ -72,8 +71,8 @@ const runPuzzles = (days, options, say, modules = undefined) => {
   }
 
   for (const day of days) {
-    /* istanbul ignore next */
-    loadable = modules ? modules[day] : require('../day' + day), record = {day}
+    loadable = require('../day' + day)
+    record = {day, lines: readFileSync('day' + day + '.js').toString().split('\n').length}
 
     for (let d, d0, d1, n = 0, result; n <= 1; ++n) {
       let msg = (`\rday${day}: puzzle #${n + 1} `)
@@ -148,8 +147,5 @@ const run = (argv) => {
 
   return 0
 }
-
-//  Expose internals for module testing.
-// Object.assign(run, { execute, parseCLI, prepareDays, runPuzzles })
 
 module.exports = run
