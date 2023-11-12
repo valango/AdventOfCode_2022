@@ -11,7 +11,7 @@ const maxN = BigInt(Number.MAX_SAFE_INTEGER)
  * @param {Set<string>} requiredDays  - ['01', '02']
  * @param {Array<string>} modules     - ['day01.js', 'day25.js']
  * @param {boolean} allDays
- * @returns {Array<string>}           - ['01']
+ * @returns {Array<string>|string}    - ['01'] | 'Error'
  */
 const prepareDays = (requiredDays, modules, allDays) => {
   let days

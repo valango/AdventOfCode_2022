@@ -10,18 +10,19 @@ module.exports = ({useBoth, useDemo}, print) => {
 
   const prepare = (records) => {
     if (showMain) {
-      headings.push('Main1', 'Main2', 'M1_µs', 'M2_µs')
-      demoX += 4
-      commentX += 4
+      headings.push('M1_µs', 'M2_µs')
+      demoX += 2
+      commentX += 2
     }
     if (showDemo) {
-      headings.push('Demo1', 'Demo2', 'D1_µs', 'D2_µs')
-      commentX += 4
+      headings.push('D1_µs', 'D2_µs')
+      commentX += 2
     }
 
     if ((hasNotes = records.some(({comment}) => Boolean(comment)))) headings.push('Notes')
 
-    widths = headings.map(s => s.length), lastColumn = headings.length - 1
+    widths = headings.map(s => s.length)
+    lastColumn = headings.length - 1
   }
 
   const checkRow = (row) => {
@@ -62,14 +63,13 @@ module.exports = ({useBoth, useDemo}, print) => {
 
     for (const row of rows) {
       for (let i = 0; i <= lastColumn; ++i) {
-        print((i ? ' | ' : '') + ((hasNotes && i === lastColumn)
-          ? row[i] : row[i].padStart(widths[i])))
+        print((i ? ' | ' : '') + ((hasNotes && i === lastColumn) ? row[i] : row[i].padStart(widths[i])))
       }
       print('\n')
     }
   }
 
-  const dump = (records, {makeJSON, makeMd}) => {
+  return (records, {makeJSON, makeMd}) => {
     const {length} = records
 
     if (length === 1 && !makeJSON && !makeMd) makeJSON = true
@@ -84,17 +84,19 @@ module.exports = ({useBoth, useDemo}, print) => {
       prepare(records)
 
       for (const record of records) {
-        const row = headings.reduce((acc, txt, i) =>
-          acc.push(i ? ' ' : record.day, record.lines + '', ' ', ' ') && acc, [])
         let res, r
+        const row = headings.reduce((acc) => acc.push(' ') && acc, [])
+
+        row[0] = record.day
+        row[1] = record.lines + ''
 
         if (showMain && (res = record['main'])) {
-          if ((r = res['1'])) row[mainX] = r.value + '', row[mainX + 2] = r.time + ''
-          if ((r = res['2'])) row[mainX + 1] = r.value + '', row[mainX + 3] = r.time + ''
+          if ((r = res['1'])) row[mainX] = r.time + ''
+          if ((r = res['2'])) row[mainX + 1] = r.time + ''
         }
         if (showDemo && (res = record['demo'])) {
-          if ((r = res['1'])) row[demoX] = r.value + '', row[demoX + 2] = r.time + ''
-          if ((r = res['2'])) row[demoX + 1] = r.value + '', row[demoX + 3] = r.time + ''
+          if ((r = res['1'])) row[demoX] = r.time + ''
+          if ((r = res['2'])) row[demoX + 1] = r.time + ''
         }
         if (record.comment) {
           row[commentX] = record.comment
@@ -106,6 +108,4 @@ module.exports = ({useBoth, useDemo}, print) => {
 
     print('\n')
   }
-
-  return dump
 }
