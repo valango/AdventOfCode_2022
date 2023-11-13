@@ -24,27 +24,44 @@ const parse = (dsn) => {
 }
 
 /** @param {[number, number][]} commands */
-const computeTailTraceLength = (commands) => {
+const computeTailTraceLength = (commands, length) => {
   const trace = new Set()
-  let x = 0, y = 0, tailX = 0, tailY = 0, last = [0, 0]
+  const positions = new Array(length + 1).fill(0).map(() => [0, 0])
 
-  trace.add('0 0')
-  for (const [dx, dy] of commands) {
-    const count = Math.abs(dx + dy), sx = sign(dx), sy = sign(dy)
+  for (const [shiftX, shiftY] of commands) {
+    let distance = abs(shiftX + shiftY), dx = sign(shiftX), dy = sign(shiftY)
 
-    for (let i = 0; i < count; ++i) {
-      x += sx
-      y += sy
-      if ((abs(tailX - x) + abs(tailY - y)) === 3) {
-        if (abs(tailX - x) === 1) tailX = x
-        else tailY = y
+    while (--distance >= 0) {
+      let level = 0, x = 0, y = 0
+      positions[0][0] += dx
+      positions[0][1] += dy
+
+      while (level < length) {
+        let [xHead, yHead] = positions[level]
+        ;[x, y] = positions[++level]
+        const [dx, dy] = [xHead - x, yHead - y]
+        if (dx === 0 && dy === 0) {
+          break
+        }
+        if ((abs(dx) + abs(dy)) === 3) {
+          if (abs(dx) === 1) x = xHead
+          else y = yHead
+        }
+        if (abs(dx) === 2) x += sign(dx)
+        if (abs(dy) === 2) y += sign(dy)
+
+        positions[level] = [x, y]
       }
-      if (abs(tailY - y) === 2) tailY += sy
-      else if (abs(tailX - x) === 2) tailX += sx
-      trace.add(tailX + ' ' + tailY)
+      if (level === length) {
+        trace.add(x + ' ' + y)
+      }
+    }
+    for (let i = 0; i < length; ++i) {
+      const [x, y] = positions[i]
+      if (x === 0 && y === 0) break
     }
   }
-  return trace.size
+  return trace.add('0 0').size
 }
 
 /**
@@ -52,15 +69,20 @@ const computeTailTraceLength = (commands) => {
  * @param {TOptions} options
  */
 const puzzle1 = (input, options) => {
-  return computeTailTraceLength(input)
+  return computeTailTraceLength(input, 1)
 }
 
 /** @param {TData[]} input */
 const puzzle2 = (input) => {
-  return undefined
+  return computeTailTraceLength(input, 10)
 }
 
 //  Example (demo) data.
+/* rawInput[1] = `
+R 5
+U 8
+L 8
+` /* */
 rawInput[1] = `
 R 4
 U 4
@@ -69,7 +91,7 @@ D 1
 R 4
 D 1
 L 5
-R 2`
+R 2` /* */
 //  Uncomment the next line to disable demo for puzzle2 or to define different demo for it.
 //  rawInput[2] = ``
 
