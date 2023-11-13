@@ -1,12 +1,19 @@
 //  core/utils.js
 'use strict'
 
-const { basename, resolve } = require('path')
-const { readFileSync } = require('fs')
+const {basename, resolve} = require('path')
+const {readFileSync} = require('fs')
 const assert = require('./assert')
 const parseCLI = require('./parseCLI')
+let beSilent = false
 
 const say = msg => process.stderr.write(msg)
+
+const log = (...args) => {
+  if (!beSilent) console.log.apply(console, args)
+}
+
+const logOn = (yes) => (beSilent = !yes)
 
 const readFile = (path) => {
   try {
@@ -40,6 +47,8 @@ const loadData = (moduleName, suffix = '') => {
  */
 module.exports = {
   assert,
+  log,
+  logOn,
   loadData,
   parseInt: (v) => Number.parseInt(v.trim()),  //  To be used as .map() argument.
   parseCLI,

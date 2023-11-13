@@ -1,9 +1,9 @@
 'use strict'
 //  --- Day 9: Rope Bridge ---
 
-const {assert, loadData, parseInt} = require('./utils')
+const {assert, log, loadData, parseInt} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
-const {abs, sign} = Math
+const {abs, max, min, sign} = Math
 
 /** @typedef {[number,number]} TData */
 
@@ -23,8 +23,33 @@ const parse = (dsn) => {
   return data   //  NOTE: The runner will distinguish between undefined and falsy!
 }
 
-/** @param {[number, number][]} commands */
-const computeTailTraceLength = (commands, length) => {
+/**
+ * Dedicated debugging utility.
+ * @param {[number, number][]} positions
+ * @param {number} length
+ */
+const render = (positions, length) => {
+  let xMin = 0, xMax = 0, yMin = xMin, yMax = xMax, i = length
+  const field = []
+
+  for (const [x, y] of positions) {
+    xMin = min(xMin, x), xMax = max(xMax, x), yMin = min(yMin, y), yMax = max(yMax, y)
+  }
+  for (let y = yMin; y <= yMax; ++y) field.push(new Array(xMax - xMin + 1).fill('.'))
+  log('')
+  for (const [x, y] of positions) {
+    field[yMax - y][x - xMin] = '' + i--
+  }
+  for (const row of field) log(row.join(''))
+}
+
+/**
+ * @returns {number}
+ * @param {[number, number][]} commands
+ * @param {number} length -- NB: number of knots is length + 1 !
+ * @param {number} renderFirst
+ */
+const computeTailTraceLength = (commands, length, renderFirst = 0) => {
   const trace = new Set()
   const positions = new Array(length + 1).fill(0).map(() => [0, 0])
 
@@ -56,33 +81,22 @@ const computeTailTraceLength = (commands, length) => {
         trace.add(x + ' ' + y)
       }
     }
-    for (let i = 0; i < length; ++i) {
-      const [x, y] = positions[i]
-      if (x === 0 && y === 0) break
-    }
+    if (--renderFirst >= 0) render(positions, length)
   }
   return trace.add('0 0').size
 }
 
-/**
- * @param {TData[]} input
- * @param {TOptions} options
- */
-const puzzle1 = (input, options) => {
-  return computeTailTraceLength(input, 1)
+/** @param {TData[]} input */
+const puzzle1 = (input) => {
+  return computeTailTraceLength(input, 1, 5)
 }
 
 /** @param {TData[]} input */
 const puzzle2 = (input) => {
-  return computeTailTraceLength(input, 10)
+  return computeTailTraceLength(input, 9, 3)
 }
 
 //  Example (demo) data.
-/* rawInput[1] = `
-R 5
-U 8
-L 8
-` /* */
 rawInput[1] = `
 R 4
 U 4
@@ -93,6 +107,10 @@ D 1
 L 5
 R 2` /* */
 //  Uncomment the next line to disable demo for puzzle2 or to define different demo for it.
-//  rawInput[2] = ``
+rawInput[2] = `
+R 5
+U 8
+L 8
+`
 
 module.exports = {parse, puzzles: [puzzle1, puzzle2]}

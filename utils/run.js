@@ -3,7 +3,7 @@
 
 const {opendirSync, readFileSync} = require('fs')
 const dumper = require('./dumper')
-const {assert, parseCLI, print, say, usecsFrom} = require('.')
+const {assert, logOn, parseCLI, print, say, usecsFrom} = require('.')
 
 const maxN = BigInt(Number.MAX_SAFE_INTEGER)
 
@@ -78,7 +78,11 @@ const runPuzzles = (days, options, say) => {
     for (let d, d0, d1, n = 0, result; n <= 1; ++n) {
       let msg = (`\rday${day}: puzzle #${n + 1} `)
 
-      if (warmUpData) execute(loadable.puzzles[n], warmUpData, {...opts, isDemo: true})
+      if (warmUpData) {
+        logOn(false)
+        execute(loadable.puzzles[n], warmUpData, {...opts, isDemo: true})
+        logOn(true)
+      }
 
       if (useBoth || useDemo) {
         if (n && (d = loadable.parse(2))) {
@@ -100,10 +104,11 @@ const runPuzzles = (days, options, say) => {
 
       if (!useDemo) {
         if (d0 === undefined) d0 = loadable.parse(0)
-
+        logOn(false)
         if ((result = runAndReport(n, d0, msg + 'main', false))) {
           (record.main || (record.main = {}))[n + 1 + ''] = result
         }
+        logOn(true)
         say(longLine)
       }
     }

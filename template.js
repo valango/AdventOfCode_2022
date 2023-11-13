@@ -1,6 +1,6 @@
 'use strict'
 
-const {assert, loadData, parseInt} = require('./utils')
+const {assert, log, loadData, parseInt} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
 
 /** @typedef {*} TData */
