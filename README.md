@@ -16,6 +16,7 @@ I had no time in time 😄, so I came back to the stuff 11 months later.
 * `day 08:` **Treetop Tree House**: simple 3D terrain emulation.
 * `day 09.1:` **Rope Bridge**: kinda Turtle Graphics emulation. Puzzle #1: 51 min and _answer too low_. In 5 mins cause was found: input parsing error.
 * `day 09.2:` Did not understand the description first; the wasted crazy amount of time because of wrong <length> argument value.
+* `day 10:` **Cathode-Ray Tube**: #1 super-simple.
 
 ## Track record
 
@@ -29,7 +30,8 @@ I had no time in time 😄, so I came back to the stuff 11 months later.
 |06|53|       |       |278|341|2|1|
 |07|150|       |       |1933|24|131|25|
 |08|144|       |       |1399|1886|122|75|
-|09|117|    56 |    3h |12507|11513|
+|09|117|    56 |    3h |12507|11513|1621|622|
+|10|54|    25 | |24| |
 
 
 The puzzle #2 time is often shorter, because the bulk of computations often happens during the #1 already.
