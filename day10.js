@@ -16,31 +16,42 @@ const parse = (dsn) => {
   return data   //  NOTE: The runner will distinguish between undefined and falsy!
 }
 
-const compute = (program, cycleNumbers, initialValue = 1) => {
-  let register = initialValue, cycle = 0
-  const values = []
+const compute = (program, cb) => {
+  let cycle = 0, register = 1
 
   for (const value of program) {
-    if (cycleNumbers.includes(++cycle)) values.push(register)
+    cb(register, ++cycle)
+
     if (value !== undefined) {
-      if (cycleNumbers.includes(++cycle)) values.push(register)
+      cb(register, ++cycle)
       register += value
     }
   }
-  return values
 }
 
-/** @param {TData[]} input */
-const puzzle1 = (input) => {
+/** @param {TData[]} program */
+const puzzle1 = (program) => {
   const cycles = [20, 60, 100, 140, 180, 220]
-  const values = compute(input, cycles)
-  const strengths = values.map((v, i) => v * cycles[i])
-  return strengths.reduce((sum, v) => sum + v, 0)
+  let sum = 0
+
+  compute(program, (register, cycle) => cycles.includes(cycle) && (sum += register * cycle))
+  return sum
 }
 
-/** @param {TData[]} input */
-const puzzle2 = (input) => {
-  return undefined
+/** @param {TData[]} program */
+const puzzle2 = (program) => {
+  const screen = new Array(6 * 40).fill(' ')
+
+  compute(program, (register, cycle) => {
+    const n = cycle - 1, x = (n) % 40
+    const c = (x >= (register - 1) && x <= (register + 1)) ? '#' : '.'
+    screen[n] = c
+  })
+  log(' SCREEN:')
+  for (let start = 0; start < (6 * 40); start += 40) {
+    log(screen.slice(start, start + 40).join(''))
+  }
+  return true
 }
 
 //  Example (demo) data.
@@ -49,6 +60,3 @@ rawInput[1] = readFileSync('data/day10demo.txt').toString()
 //  rawInput[2] = ``
 
 module.exports = {parse, puzzles: [puzzle1, puzzle2]}
-
-/*
- */

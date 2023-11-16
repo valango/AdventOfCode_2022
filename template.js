@@ -29,10 +29,7 @@ const puzzle2 = (input) => {
 
 //  Example (demo) data.
 rawInput[1] = ``
-//  Uncomment the next line to disable demo for puzzle2 or to define different demo for it.
+//  Uncomment the next line to disable demo for puzzle2 or to define different demo data for it.
 //  rawInput[2] = ``
 
 module.exports = {parse, puzzles: [puzzle1, puzzle2]}
-
-/*
- */

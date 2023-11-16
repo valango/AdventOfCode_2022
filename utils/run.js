@@ -103,12 +103,10 @@ const runPuzzles = (days, options, say) => {
       }
 
       if (!useDemo) {
-        if (d0 === undefined) d0 = loadable.parse(0)
-        logOn(false)
+        if (d0 === undefined) d0 = loadable.parse(0)    //  TODO: what is the purpose here?
         if ((result = runAndReport(n, d0, msg + 'main', false))) {
           (record.main || (record.main = {}))[n + 1 + ''] = result
         }
-        logOn(true)
         say(longLine)
       }
     }

@@ -50,6 +50,3 @@ rawInput[1] = `2-4,6-8
 //  rawInput[2] = ``
 
 module.exports = {parse, puzzles: [puzzle1, puzzle2]}
-
-/*
- */
