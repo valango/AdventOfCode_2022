@@ -6,18 +6,21 @@ Right in time I had no time 😄, so I came back to this 11 months later.
 
 ## Diary
 
-* `day 01:` **Calorie Counting**: simple summing and sorting -- spent most of the time trying to remember how to use my fancy runner.
-* `day 02:` **Rock Paper Scissors**: simple game strategy modeling.
-* `day 03:` **Rucksack Reorganization**: simple summing and sorting.
-* `day 04:` **Camp Cleanup**: simple number sets operations.
-* `day 05:` **Supply Stacks**: simple stacks manipulations.
-* `day 06:` **Tuning Trouble**: simple numeric sequences analyse.
-* `day 07:` **No Space Left On Device**: simple filesystem tree emulation.
-* `day 08:` **Treetop Tree House**: simple 3D terrain emulation.
-* `day 09.1:` **Rope Bridge**: kinda Turtle Graphics emulation. Puzzle #1: 51 min and _answer too low_. In 5 min the cause was found: input parsing error.
-* `day 09.2:` Did not understand the description first; the wasted crazy amount of time because of wrong <length> argument value.<br>
+* `day 01` **Calorie Counting**: simple summing and sorting -- spent most of the time trying to remember how to use my fancy runner.
+* `day 02` **Rock Paper Scissors**: simple game strategy modeling.
+* `day 03` **Rucksack Reorganization**: simple summing and sorting.
+* `day 04` **Camp Cleanup**: simple number sets operations.
+* `day 05` **Supply Stacks**: simple stacks manipulations.
+* `day 06` **Tuning Trouble**: simple numeric sequences analyse.
+* `day 07` **No Space Left On Device**: simple filesystem tree emulation.
+* `day 08` **Treetop Tree House**: simple 3D terrain emulation.
+* `day 09.1` **Rope Bridge**: kinda Turtle Graphics emulation. Puzzle #1: 51 min and _answer too low_. In 5 min the cause was found: input parsing error.
+* `day 09.2` Did not understand the description first; the wasted crazy amount of time because of wrong <length> argument value.<br>
 To figure out what goes wrong, I had to write a dedicated renderer!
-* `day 10:` **Cathode-Ray Tube**: #1 was super-simple; #2 involved reading of lengthy explanations.
+* `day 10` **Cathode-Ray Tube**: #1 was super-simple; #2 involved reading of lengthy explanations.
+* `day 11` **Monkey in the Middle**:
+   - #1 was simple computation based on quite wordy and hard to perceive explanation.
+   - #2 previous brute force solution failed w arithmetic overflow; it took some arithmetic analysis to find proper solution. 💥 Pretty cool!
 
 ## Track record
 
@@ -33,6 +36,7 @@ To figure out what goes wrong, I had to write a dedicated renderer!
 |08|144|       |       |  1399 |  1886 |122|75|
 |09|117|    56 |    3h | 12507 | 11513 |1621|622|
 |10|63|    25 |    40 |    21 |   329 |27|1244|
+|11|106|    30 |    3h |1788|76862|575|13704|
 
 
 The puzzle #2 time is often shorter, because the bulk of computations often happens during the #1 already.
