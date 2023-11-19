@@ -5,13 +5,16 @@ const {basename, resolve} = require('path')
 const {readFileSync} = require('fs')
 const assert = require('./assert')
 const parseCLI = require('./parseCLI')
-let beSilent = false
+let beSilent = false, options = {}
 
 const say = msg => process.stderr.write(msg)
 
 const log = (...args) => {
   if (!beSilent) console.log.apply(console, args)
 }
+
+const setOptions = (value) => options = value
+const getOptions = () => ({...options})
 
 const logOn = (yes) => (beSilent = !yes)
 
@@ -47,6 +50,8 @@ const loadData = (moduleName, suffix = '') => {
  */
 module.exports = {
   assert,
+  getOptions,
+  setOptions,
   log,
   logOn,
   loadData,

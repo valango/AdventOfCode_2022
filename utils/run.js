@@ -3,7 +3,15 @@
 
 const {opendirSync, readFileSync} = require('fs')
 const dumper = require('./dumper')
-const {assert, logOn, parseCLI, print, say, usecsFrom} = require('.')
+const {
+  assert,
+  setOptions,
+  logOn,
+  parseCLI,
+  print,
+  say,
+  usecsFrom
+} = require('.')
 
 const maxN = BigInt(Number.MAX_SAFE_INTEGER)
 
@@ -34,12 +42,11 @@ const prepareDays = (requiredDays, modules, allDays) => {
 /**
  * @param {function(*, object=):*} puzzle
  * @param {*} data
- * @param {Object} options
  * @returns {{result: *, time: number}|undefined}
  */
-const execute = (puzzle, data, options) => {
+const execute = (puzzle, data) => {
   const t0 = process.hrtime()
-  let value = puzzle(data, options)
+  let value = puzzle(data)
   const time = Math.floor(usecsFrom(t0))
 
   if (value !== undefined) {
@@ -63,8 +70,9 @@ const runPuzzles = (days, options, say) => {
 
   /* istanbul ignore next */
   const runAndReport = (puzzleNumber, data, msg, isDemo) => {
+    setOptions({...opts, isDemo})
     say(` ${msg}...`)
-    const res = data && execute(loadable.puzzles[puzzleNumber], data, {...opts, isDemo})
+    const res = data && execute(loadable.puzzles[puzzleNumber], data)
     say(`\b\b\b: ok`)
 
     return res
@@ -79,8 +87,9 @@ const runPuzzles = (days, options, say) => {
       let msg = (`\rday${day}: puzzle #${n + 1} `)
 
       if (warmUpData) {
+        setOptions({...opts, isDemo: true, isWarmUp: true})
         logOn(false)
-        execute(loadable.puzzles[n], warmUpData, {...opts, isDemo: true})
+        execute(loadable.puzzles[n], warmUpData)
         logOn(true)
       }
 
