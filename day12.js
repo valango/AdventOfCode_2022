@@ -5,15 +5,15 @@ const {assert, getOptions, log, loadData} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
 
 const {abs} = Math
+const ca = 'a'.charCodeAt(0)
 
 const parse = (dsn) => {
-  const ca = 'a'.charCodeAt(0)
   let data = rawInput[dsn], map, start, goal
 
   if (data && (data = data.split('\n').filter(v => Boolean(v))).length) {
     map = data.map((line, y) => Array.from(line).map((ch, x) => {
-      if (ch === 'S') ch = 'a', start = [x, y]
-      else if (ch === 'E') ch = 'z', goal = [x, y]
+      if (ch === 'S') ch = 'a', goal = [x, y]
+      else if (ch === 'E') ch = 'z', start = [x, y]
       return ch.charCodeAt(0) - ca
     }))
     data = {map, start, goal, width: map[0].length}
@@ -21,9 +21,14 @@ const parse = (dsn) => {
   return data
 }
 
-const dump = (map, comment) => {
+const dump = (map, comment, other) => {
   log(comment || '')
-  map.forEach(line => log('|' + line.join('') + '|'))
+  map.forEach((line, y) => {
+    if (other) {
+      line = line.map((ch, x) => ch === '#' ? String.fromCharCode(other[y][x] + ca) : ch)
+    }
+    log('|' + line.join('') + '|')
+  })
 }
 
 const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
@@ -62,7 +67,7 @@ const walk = (map, start, goal) => {
     } else {
       route[y0][x0] = '#'
       if (path.length === 0) {
-        dump(route, 'FAILED')
+        dump(route, 'FAILED', map)
         return undefined
       }
       [x0, y0] = path.pop()
@@ -73,7 +78,7 @@ const walk = (map, start, goal) => {
   }
   route[y0][x0] = 'E'
   log('PATH', path)
-  dump(route)
+  dump(route, '', map)
   return path.length
 }
 

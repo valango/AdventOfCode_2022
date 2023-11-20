@@ -1,0 +1,44 @@
+FAILED
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                            uu                 |
+|                                                                                                                                    uuu   uuuuv qq             |
+|                                                                                                                                  uuuuuuuuuuuuvvqq             |
+|                                                                                                                                  tuuuuuuuuyyvvvqq             |
+|                                                                                                                                  ttuxxxuuxyyyvvqq             |
+|                                                                                                                                  tttxxxxxyyyyvvqqq            |
+|                                                                                                                                  tttxxxxxyyyvvvqqqq           |
+|                                                                                                                                   ttxxxxxyyyvvvvqqqq          |
+|                                                                                                                                  tttxxxzzzyyyyvvvqqq          |
+|                                                                                                                                  ttxxxxyyyyyyyyvvvqqq         |
+|                                                                                                                                 tttxxyyyyyyyyyvvvvqqq         |
+|                                                                                                                                tttxxxxwwyyywwvvvvrrr          |
+|                                                                                                                                tttxxxwwwyywwwwvvrrrr          |
+|                                                                                                                                tttttwwswwyywwrrrrrr           |
+|                                                                                                                                 ttssssswwwwwrrrr              |
+|                                                                                                                                   sssssswwwwrrr               |
+|                                                                                                                                       ssswwwrr                |
+|                                                                                                                                        sssssrr                |
+|                                                                                                                                        sssssr                 |
+|                                                                                                                                         ssssr                 |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+|                                                                                                                                                               |
+{ "day": "12", "lines": 105 }
+
