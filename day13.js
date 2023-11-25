@@ -1,19 +1,15 @@
 'use strict'
 // --- Day 13: Distress Signal ---
 
-const {assert, log, loadData, parseInt} = require('./utils')
+const {loadData} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
-const {min} = Math
+const {floor, min} = Math
 
 const parse = (dsn) => {
-  let data = rawInput[dsn], pairs = []
+  let data = rawInput[dsn], result = []
 
   if (data && (data = data.split('\n').filter(v => Boolean(v))).length) {
-    for (let line, i, lineIndex = 0, pair = [0, 0]; (line = data[lineIndex]); ++lineIndex) {
-      pair[i = lineIndex % 2] = eval(line)
-      if (i) pairs.push([...pair])
-    }
-    data = pairs
+    data = data.map(line => eval(line))
   }
   return data   //  NOTE: The runner will distinguish between undefined and falsy!
 }
@@ -34,16 +30,13 @@ const compare = (a, b) => {
   return res
 }
 
-/**
- * @param {TData[]} input
- * @param {TOptions} options
- */
-const puzzle1 = (pairs) => {
+/** @param {TData[]} input */
+const puzzle1 = (input) => {
   let sum = 0
 
-  for (let i = 0, pair; (pair = pairs[i++]);) {
-    if (compare(pair[0], pair[1]) >= 0) {
-      sum += i
+  for (let i = 0; i < input.length; i += 2) {
+    if (compare(input[i], input[i + 1]) >= 0) {
+      sum += floor(i / 2) + 1
     }
   }
   return sum
@@ -51,7 +44,12 @@ const puzzle1 = (pairs) => {
 
 /** @param {TData[]} input */
 const puzzle2 = (input) => {
-  return undefined
+  const a = [[2]], b = [[6]], ordered = input.slice()
+
+  ordered.push(a, b)
+  ordered.sort((a, b) => compare(b, a))
+
+  return (ordered.indexOf(a) + 1) * (ordered.indexOf(b) + 1)
 }
 
 //  Example (demo) data.
@@ -80,7 +78,5 @@ rawInput[1] = `
 [1,[2,[3,[4,[5,6,7]]]],8,9]
 [1,[2,[3,[4,[5,6,0]]]],8,9]
 `
-//  Uncomment the next line to disable demo for puzzle2 or to define different demo data for it.
-//  rawInput[2] = ``
 
 module.exports = {parse, puzzles: [puzzle1, puzzle2]}
