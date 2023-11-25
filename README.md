@@ -21,8 +21,10 @@ To figure out what goes wrong, I had to write a dedicated renderer!
 * `Day 11` **Monkey in the Middle**:
    - #1 was simple computation based on quite wordy and hard to perceive explanation.
    - #2 previous brute force solution failed w arithmetic overflow; it took some arithmetic analysis to find proper solution. 💥 Pretty cool!
-* `Day 12` ** Hill Climbing Algorithm**:
+* `Day 12` **Hill Climbing Algorithm**:
    - #1 it appears that the input data is invalid: comparing `day12.out.txt` w input data reveals there is no adjacendt `p` for existing `q`!
+* `Day 13` **Distress signal**:
+   - with some un-orthodox coding, the #1 was quite simple.
 
 ## Track record
 
@@ -40,6 +42,7 @@ To figure out what goes wrong, I had to write a dedicated renderer!
 |10|63|    25 |    40 |    21 |   329 |27|1244|
 |11|106|    30 |    3h |1788|76862|575|13704|
 |12|104|
+|13|87|    60 | |122| |17| |
 
 
 The puzzle #2 time is often shorter, because the bulk of computations often happens during the #1 already.

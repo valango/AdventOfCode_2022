@@ -1,6 +1,6 @@
 'use strict'
 
-const {assert, log, loadData, parseInt} = require('./utils')
+const {assert, getOptions,  log, loadData, parseInt} = require('./utils')
 const rawInput = [loadData(module.filename), undefined, undefined, undefined]
 
 /** @typedef {*} TData */
@@ -14,12 +14,9 @@ const parse = (dsn) => {
   return data   //  NOTE: The runner will distinguish between undefined and falsy!
 }
 
-/**
- * @param {TData[]} input
- * @param {TOptions} options
- */
-const puzzle1 = (input, options) => {
-  return options && undefined
+/** @param {TData[]} input */
+const puzzle1 = (input) => {
+  return undefined
 }
 
 /** @param {TData[]} input */
